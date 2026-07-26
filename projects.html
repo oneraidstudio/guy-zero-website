@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects — GuyZ3R0</title>
+<link rel="icon" type="image/png" href="assets/avatar.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/site.css">
+<script src="shared/fx.js"></script>
+</helmet>
+<canvas ref="{{ cvRef }}" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none"></canvas>
+<nav style="position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 28px;background:rgba(10,4,13,0.88);backdrop-filter:blur(8px);border-bottom:2px solid #1b123e">
+  <a href="home.html" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:18px;letter-spacing:1px;color:#ffffff">Guy<span style="color:#00ff90">Z3R0</span></a>
+  <div style="display:flex;align-items:center;gap:22px;font-family:'JetBrains Mono',monospace;font-size:13px">
+    <a href="home.html" style="color:#eae6f2">HOME</a>
+    <a href="blog.html" style="color:#eae6f2">BLOG</a>
+    <a href="projects.html" style="color:#ffcc37">PROJECTS</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div style="display:flex;border:2px solid #1e1e90;background:#1b123e">
+      <sc-for list="{{ modeBtns }}" as="m" hint-placeholder-count="3">
+        <button onClick="{{ m.onClick }}" title="Animation mode" style="{{ m.style }}">{{ m.label }}</button>
+      </sc-for>
+    </div>
+    <button data-btn="1" onClick="{{ toggleBg }}" title="Toggle animated background" style="{{ bgBtnStyle }}">BG</button>
+  </div>
+</nav>
+<main style="position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 24px">
+  <section style="padding:56px 0 40px">
+    <h1 style="font-family:'Silkscreen',monospace;font-size:38px;color:#00ff90;margin:0;letter-spacing:1px">PROJECTS</h1>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#8f86ad;margin:12px 0 0">&gt; playable proof of work<span style="animation:gz-blink 1.1s step-end infinite">_</span></p>
+  </section>
+  <section style="padding:0 0 110px;display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:26px;grid-auto-flow:dense">
+    <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
+      <article onClick="{{ p.open }}" style="position:relative;display:flex;flex-direction:column;background:#1b123e;border:2px {{ p.borderStyle }} #1e1e90;cursor: {{ p.cursor }};opacity: {{ p.dim }};overflow:hidden;transition:transform .18s, border-color .18s, box-shadow .18s;box-shadow:6px 6px 0 0 #12093a;grid-column: {{ p.span }}" style-hover="transform: translate(-3px,-3px); border-color: {{ p.tagColor }}; box-shadow: 9px 9px 0 0 #12093a">
+        <span style="position:absolute;top:0;right:0;z-index:2;padding:5px 10px;background: {{ p.tagColor }};color:#0a040d;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:1px">{{ p.tag }}</span>
+        <div style="height: {{ p.thumbH }};background:#12093a;border-bottom:2px solid #1e1e90;display:flex;align-items:center;justify-content:center">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;color:#2c2260">{{ p.thumbLabel }}</span>
+        </div>
+        <div style="padding:22px 24px 24px;display:flex;flex-direction:column;gap:10px;flex:1">
+          <h2 style="font-family:'Silkscreen',monospace;font-size:22px;color:#ffffff;margin:0;letter-spacing:1px">{{ p.title }}</h2>
+          <p style="font-size:15px;line-height:1.6;color:#c9c2dd;margin:0;text-wrap:pretty;flex:1">{{ p.desc }}</p>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color: {{ p.tagColor }};font-weight:700">{{ p.cta }}</span>
+        </div>
+      </article>
+    </sc-for>
+  </section>
+</main>
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:60;background:rgba(10,4,13,0.82);display:flex;align-items:center;justify-content:center;padding:24px;overflow-y:auto">
+    <div onClick="{{ stop }}" style="position:relative;width:100%;max-width:720px;max-height:86vh;overflow-y:auto;background:#1b123e;border:2px solid {{ mTagColor }};box-shadow:10px 10px 0 0 #0a040d;animation:gz-modal .22s ease">
+      <button data-btn="1" onClick="{{ closeModal }}" style="position:absolute;top:12px;right:12px;z-index:3;width:36px;height:36px;background:#0a040d;border:2px solid #1e1e90;color:#eae6f2;font-family:'Silkscreen',monospace;font-size:14px;cursor:pointer" style-hover="border-color: #ff2e57; color: #ff2e57">X</button>
+      <div data-mimgs="1" style="display:flex;gap:10px;padding:24px 24px 0">
+        <sc-for list="{{ mImages }}" as="im" hint-placeholder-count="3">
+          <div style="flex:1;height:150px;background:#12093a;border:2px solid #1e1e90;display:flex;align-items:center;justify-content:center">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#2c2260">{{ im }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="padding:26px 28px 30px">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <h2 style="font-family:'Silkscreen',monospace;font-size:26px;color:#ffffff;margin:0;letter-spacing:1px">{{ mTitle }}</h2>
+          <span style="padding:4px 10px;background: {{ mTagColor }};color:#0a040d;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:1px">{{ mTag }}</span>
+        </div>
+        <p style="font-size:16px;line-height:1.75;color:#c9c2dd;margin:18px 0 0;text-wrap:pretty">{{ mBody }}</p>
+        <div style="display:flex;gap:14px;margin-top:26px;flex-wrap:wrap">
+          <sc-for list="{{ mLinks }}" as="l" hint-placeholder-count="2">
+            <a data-btn="1" href="{{ l.href }}" target="_blank" style="display:inline-block;padding:10px 18px;background:#0a040d;border:2px solid {{ mTagColor }};color: {{ mTagColor }};font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:1px" style-hover="transform: translate(-2px,-2px)">{{ l.label }} &#9654;</a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+<footer style="position:relative;z-index:1;border-top:2px solid #1b123e;padding:26px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+  <span style="font-family:'Silkscreen',monospace;font-size:14px;color:#ffffff">Guy<span style="color:#00ff90">Z3R0</span></span>
+  <span style="display:flex;gap:18px;font-family:'JetBrains Mono',monospace;font-size:12px">
+    <a href="home.html" style="color:#8f86ad">HOME</a>
+    <a href="blog.html" style="color:#8f86ad">BLOG</a>
+  </span>
+  <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#5c5378">&#169; 2026 GuyZ3R0 &#183; built block by block</span>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  // Add/edit projects here — each entry is one card. featured: true makes it span 2 columns.
+  projects = [
+    {
+      id: 'ors-hub', title: 'ORS HUB', tag: 'STUDIO', tagColor: '#00ff90', featured: true,
+      desc: 'The home base for One Raid Studio — projects, tools and releases in one place.',
+      body: 'ORS Hub is the central platform for everything One Raid Studio ships: project pages, downloadable tools, release notes and dev updates. Built to grow as the studio does. (Replace this description and add real screenshots when ready.)',
+      links: [{ label: 'LIVE SITE', href: 'https://example.com' }, { label: 'REPO', href: 'https://github.com/' }]
+    },
+    {
+      id: 'golem', title: 'GOLEM', tag: 'GAME', tagColor: '#ff8b1c',
+      desc: 'A blocky experiment in making things move, break and fight back.',
+      body: 'Golem is a game project in progress. Description, mechanics and screenshots to come — this text is a placeholder for GuyZ3R0 to fill in.',
+      links: [{ label: 'DEVLOG', href: 'https://example.com' }]
+    },
+    {
+      id: 'statmaxxer', title: 'STATMAXXER', tag: 'TOOL', tagColor: '#4a8cff',
+      desc: 'Track the numbers that matter and grind them upward.',
+      body: 'Statmaxxer is a stat-tracking tool. Description and screenshots to come — this text is a placeholder for GuyZ3R0 to fill in.',
+      links: [{ label: 'REPO', href: 'https://github.com/' }]
+    },
+    {
+      id: 'locked', title: '???', tag: 'LOCKED', tagColor: '#8f86ad', locked: true,
+      desc: 'Something new is being forged. Check back after the next update.',
+      body: '',
+      links: []
+    }
+  ];
+  state = { mode: 'subtle', bgOn: true, open: null };
+  cvRef = (el) => { this.cv = el; };
+  componentDidMount() {
+    let mode = 'subtle';
+    try {
+      const saved = localStorage.getItem('gz-anim-mode');
+      if (saved === 'max' || saved === 'subtle' || saved === 'zero') mode = saved;
+      const bg = localStorage.getItem('gz-bg-on');
+      this.setState({ mode, bgOn: bg === null ? true : bg === '1' });
+    } catch (e) {}
+    this.startFX();
+    this._onKey = (e) => { if (e.key === 'Escape') this.setState({ open: null }); };
+    addEventListener('keydown', this._onKey);
+  }
+  componentWillUnmount() {
+    if (this._fx) this._fx.destroy();
+    clearTimeout(this._fxT);
+    removeEventListener('keydown', this._onKey);
+  }
+  // Wires the shared background/ripple/hover engine (shared/fx.js) to this page
+  startFX() {
+    if (!window.GZ) { this._fxT = setTimeout(() => this.startFX(), 120); return; }
+    this._fx = GZ.initFX({
+      canvas: () => this.cv,
+      mode: () => this.state.mode,
+      bgOn: () => this.state.bgOn,
+      exclude: 'button, a, article, input, textarea, [data-btn], nav, footer'
+    });
+  }
+  setMode(m) {
+    try { localStorage.setItem('gz-anim-mode', m); } catch (e) {}
+    this.setState({ mode: m });
+  }
+  toggleBg = () => {
+    const v = !this.state.bgOn;
+    try { localStorage.setItem('gz-bg-on', v ? '1' : '0'); } catch (e) {}
+    this.setState({ bgOn: v });
+  };
+  renderVals() {
+    const { mode, bgOn, open } = this.state;
+    const btn = (active) => ({
+      padding: '7px 12px', border: 'none', cursor: 'pointer', fontFamily: "'JetBrains Mono',monospace",
+      fontWeight: 700, fontSize: '11px', letterSpacing: '0.5px',
+      background: active ? '#00ff90' : 'transparent', color: active ? '#0a040d' : '#8f86ad'
+    });
+    const modeBtns = [
+      { label: 'MAX', onClick: () => this.setMode('max'), style: btn(mode === 'max') },
+      { label: 'SUB', onClick: () => this.setMode('subtle'), style: btn(mode === 'subtle') },
+      { label: 'ZERO', onClick: () => this.setMode('zero'), style: btn(mode === 'zero') }
+    ];
+    const bgBtnStyle = {
+      padding: '7px 12px', cursor: 'pointer', fontFamily: "'JetBrains Mono',monospace", fontWeight: 700,
+      fontSize: '11px', border: '2px solid ' + (bgOn ? '#00ff90' : '#1e1e90'),
+      background: '#1b123e', color: bgOn ? '#00ff90' : '#8f86ad'
+    };
+    const cur = this.projects.find((p) => p.id === open);
+    return {
+      cvRef: this.cvRef, modeBtns, bgBtnStyle, toggleBg: this.toggleBg,
+      projects: this.projects.map((p) => ({
+        ...p,
+        span: p.featured ? 'span 2' : 'auto',
+        thumbH: p.featured ? '220px' : '160px',
+        thumbLabel: p.locked ? 'LOCKED' : 'THUMBNAIL',
+        cta: p.locked ? 'UNDER CONSTRUCTION' : 'VIEW DETAILS \u25b6',
+        cursor: p.locked ? 'default' : 'pointer',
+        dim: p.locked ? 0.6 : 1,
+        borderStyle: p.locked ? 'dashed' : 'solid',
+        open: p.locked ? () => {} : () => this.setState({ open: p.id })
+      })),
+      modalOpen: !!cur,
+      mTitle: cur ? cur.title : '', mTag: cur ? cur.tag : '', mTagColor: cur ? cur.tagColor : '#1e1e90',
+      mBody: cur ? cur.body : '',
+      mImages: ['IMG 01', 'IMG 02', 'IMG 03'],
+      mLinks: cur ? cur.links : [],
+      closeModal: () => this.setState({ open: null }),
+      stop: (e) => e.stopPropagation()
+    };
+  }
+}
+</script>
+</body>
+</html>
