@@ -14,14 +14,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
-<link rel="stylesheet" href="shared/site.css">
-<script src="shared/fx.js"></script>
+<link rel="stylesheet" href="site.css">
+<script src="fx.js"></script>
 </helmet>
 <canvas ref="{{ cvRef }}" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none"></canvas>
 <nav style="position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 28px;background:rgba(10,4,13,0.88);backdrop-filter:blur(8px);border-bottom:2px solid #1b123e">
-  <a href="home.html" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:18px;letter-spacing:1px;color:#ffffff">Guy<span style="color:#00ff90">Z3R0</span></a>
+  <a href="index.html" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:18px;letter-spacing:1px;color:#ffffff">Guy<span style="color:#00ff90">Z3R0</span></a>
   <div style="display:flex;align-items:center;gap:22px;font-family:'JetBrains Mono',monospace;font-size:13px">
-    <a href="home.html" style="color:#eae6f2">HOME</a>
+    <a href="index.html" style="color:#eae6f2">HOME</a>
     <a href="blog.html" style="color:#ffcc37">BLOG</a>
     <a href="projects.html" style="color:#eae6f2">PROJECTS</a>
   </div>
@@ -43,6 +43,9 @@
     <section style="padding:0 0 110px;display:flex;flex-direction:column;gap:26px">
       <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
         <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#8f86ad">LOADING POSTS...</p>
+      </sc-if>
+      <sc-if value="{{ showEmpty }}" hint-placeholder-val="{{ false }}">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#8f86ad;border:2px dashed #1e1e90;padding:18px 20px;margin:0;line-height:1.7">{{ emptyMsg }}</p>
       </sc-if>
       <sc-for list="{{ posts }}" as="p" hint-placeholder-count="3">
         <article data-post="1" onClick="{{ p.open }}" style="display:flex;gap:0;background:#1b123e;border:2px solid #1e1e90;cursor:pointer;transition:transform .18s, border-color .18s, box-shadow .18s;box-shadow:6px 6px 0 0 #12093a;overflow:hidden" style-hover="transform: translate(-3px,-3px); border-color: #ffcc37; box-shadow: 9px 9px 0 0 #12093a">
@@ -75,15 +78,16 @@
 <footer style="position:relative;z-index:1;border-top:2px solid #1b123e;padding:26px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
   <span style="font-family:'Silkscreen',monospace;font-size:14px;color:#ffffff">Guy<span style="color:#00ff90">Z3R0</span></span>
   <span style="display:flex;gap:18px;font-family:'JetBrains Mono',monospace;font-size:12px">
-    <a href="home.html" style="color:#8f86ad">HOME</a>
+    <a href="index.html" style="color:#8f86ad">HOME</a>
     <a href="projects.html" style="color:#8f86ad">PROJECTS</a>
+    <a href="portfolio.html" style="color:#5c5378" title="the quiet corner">PORTFOLIO</a>
   </span>
   <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#5c5378">&#169; 2026 GuyZ3R0 &#183; built block by block</span>
 </footer>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: null}">
 class Component extends DCLogic {
-  state = { mode: 'subtle', bgOn: true, posts: [], loading: true, current: null };
+  state = { mode: 'subtle', bgOn: true, posts: [], loading: true, current: null, loadError: null };
   cvRef = (el) => { this.cv = el; };
   componentDidMount() {
     let mode = 'subtle';
@@ -129,12 +133,26 @@ class Component extends DCLogic {
     return { meta, body };
   }
   async loadPosts() {
+    if (location.protocol === 'file:') {
+      // fetch() of a relative path is blocked by the browser when a page is opened directly
+      // as a file (file://...) instead of served over http(s) - this is the #1 cause of an
+      // empty post list during local testing. Surface it plainly instead of silently failing.
+      this.setState({ loading: false, loadError: 'FILE_PROTOCOL' });
+      return;
+    }
     try {
-      const files = await (await fetch('posts/index.json')).json();
+      const idxRes = await fetch('posts/index.json');
+      if (!idxRes.ok) throw new Error('posts/index.json -> HTTP ' + idxRes.status);
+      const files = await idxRes.json();
       const posts = [];
       for (const f of files) {
         try {
-          const src = await (await fetch('posts/' + f)).text();
+          const res = await fetch('posts/' + f);
+          // A missing .md on GitHub Pages returns a 404 *HTML* page with status 404.
+          // Without this guard that HTML gets parsed as a post and renders as garbage.
+          if (!res.ok) { console.warn('[blog] skipped posts/' + f + ' -> HTTP ' + res.status); continue; }
+          const src = await res.text();
+          if (/^\s*<(!doctype|html)/i.test(src)) { console.warn('[blog] posts/' + f + ' returned HTML, not markdown - skipped'); continue; }
           const { meta, body } = this.parseFrontmatter(src);
           const para = body.split(/\n{2,}/).find((p) => p && !p.startsWith('#') && !p.startsWith('!') && !p.startsWith('```')) || '';
           posts.push({
@@ -151,7 +169,8 @@ class Component extends DCLogic {
       posts.sort((a, b) => (a.date < b.date ? 1 : -1));
       this.setState({ posts, loading: false }, () => this.openFromHash());
     } catch (e) {
-      this.setState({ loading: false });
+      console.error('[blog] could not load posts:', e);
+      this.setState({ loading: false, loadError: 'FETCH_FAILED' });
     }
   }
   openFromHash() {
@@ -194,6 +213,12 @@ class Component extends DCLogic {
     return {
       cvRef: this.cvRef, modeBtns, bgBtnStyle, toggleBg: this.toggleBg,
       loading,
+      showEmpty: !loading && posts.length === 0,
+      emptyMsg: this.state.loadError === 'FILE_PROTOCOL'
+        ? 'CAN\'T LOAD POSTS FROM A FILE:// URL. Serve this folder over http instead, e.g. run "python -m http.server" in it and open localhost:8000/blog.html — or just push to GitHub Pages, which always serves over https.'
+        : (this.state.loadError === 'FETCH_FAILED'
+          ? 'COULD NOT REACH posts/index.json — check the dev console for the exact error, and make sure the posts/ folder is being served alongside this page.'
+          : 'NO POSTS FOUND — check that posts/index.json and the .md files are being served.'),
       showIndex: !current, showPost: !!current,
       posts: posts.map((p) => ({ ...p, open: () => { location.hash = 'p=' + encodeURIComponent(p.slug); } })),
       postTitle: current ? current.title : '',

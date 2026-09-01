@@ -13,8 +13,8 @@
 <link rel="icon" type="image/png" href="assets/avatar.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;600;700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="shared/site.css">
-<script src="shared/fx.js"></script>
+<link rel="stylesheet" href="site.css">
+<script src="fx.js"></script>
 </helmet>
 <canvas ref="{{ cvRef }}" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none"></canvas>
 <sc-if value="{{ showScanlines }}" hint-placeholder-val="{{ false }}">
@@ -62,8 +62,8 @@
         <article onMouseMove="{{ tiltMove }}" onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}" onClick="{{ c.onSelect }}" style="position:relative;flex-grow:0;flex-shrink:0;flex-basis:300px;box-sizing:border-box;display:flex;flex-direction:column;min-height:346px;background:#1b123e;border:2px solid #1e1e90;cursor:pointer;overflow:hidden;transform-origin:center;transition:transform .22s, box-shadow .22s, margin .22s, border-color .22s;outline-offset:3px;outline: {{ c.outline }};border-color: {{ c.borderCol }};box-shadow: {{ c.shadow }};transform: {{ c.transform }};margin-left: {{ c.mx }};margin-right: {{ c.mx }};z-index: {{ c.z }}" style-hover="transform: scale(1.07); margin-left: 11px; margin-right: 11px; z-index: 3">
           <span style="position:absolute;top:0;right:0;z-index:2;padding:5px 10px;background: {{ c.color }};color:#0a040d;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:1px">{{ c.tag }}</span>
           <div style="position:relative;height:136px;flex:0 0 136px;background:#12093a;border-bottom:2px solid #1e1e90;display:flex;align-items:center;justify-content:center;overflow:hidden">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;color:#2c2260">THUMBNAIL</span>
-            <span style="position:absolute;left:12px;bottom:8px;font-family:'Silkscreen',monospace;font-size:22px;color:#2c2260;line-height:1">{{ c.num }}</span>
+            <img src="{{ c.img }}" alt="{{ c.title }}" loading="lazy" style="width:100%;height:100%;object-fit: {{ c.fit }};object-position:center;display:block;padding: {{ c.pad }};box-sizing:border-box">
+            <span style="position:absolute;left:0;bottom:0;z-index:2;padding:3px 9px 4px;background:rgba(10,4,13,0.82);border-top:2px solid #1e1e90;border-right:2px solid #1e1e90;font-family:'Silkscreen',monospace;font-size:18px;color: {{ c.color }};line-height:1">{{ c.num }}</span>
           </div>
           <div style="display:flex;flex-direction:column;padding:20px 22px 22px">
             <h3 style="font-size:20px;font-weight:700;color:#ffffff;margin:0 0 10px;line-height:1.3;text-wrap:pretty">{{ c.title }}</h3>
@@ -109,6 +109,7 @@
     <a href="blog.html" style="color:#8f86ad">BLOG</a>
     <a href="projects.html" style="color:#8f86ad">PROJECTS</a>
     <a href="#top" style="color:#8f86ad">TOP &#9650;</a>
+    <a href="portfolio.html" style="color:#5c5378" title="the quiet corner">PORTFOLIO</a>
   </span>
   <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#5c5378">© 2026 GuyZ3R0 · built block by block</span>
 </footer>
@@ -358,18 +359,18 @@ class Component extends DCLogic {
     };
     const Y = '#ffcc37', G = '#00ff90';
     const deck = [
-      { num: '01', tag: 'RIGHT NOW', color: Y, glow: 'rgba(255,204,55,0.25)', title: 'Building One Raid Studio', body: 'Getting One Raid Studio off the ground — tools, game assets, and everything in between.' },
-      { num: '02', tag: 'RIGHT NOW', color: Y, glow: 'rgba(255,204,55,0.25)', title: 'Competitive programming grind', body: 'Solving problems daily — sharpening algorithms, data structures, and speed.' },
-      { num: '03', tag: 'RIGHT NOW', color: Y, glow: 'rgba(255,204,55,0.25)', title: 'Contest hunting', body: 'Scouting upcoming contests on Codeforces and beyond, and showing up ready.' },
-      { num: '04', tag: 'EXPERIENCE', color: G, glow: 'rgba(0,255,144,0.25)', title: 'Freelancing since 2021', body: 'Shipping client work as an independent developer for 4+ years and counting.' },
-      { num: '05', tag: 'RIGHT NOW', color: Y, glow: 'rgba(255,204,55,0.25)', title: 'Tinkering with AI', body: 'Experimenting with AI tools and workflows — poking at what sticks.' }
+      { num: '01', img: 'assets/index/one_raid_studio.png', fit: 'cover', pad: '0px', tag: 'RIGHT NOW', color: Y, glow: 'rgba(255,204,55,0.25)', title: 'Building One Raid Studio', body: 'Getting One Raid Studio off the ground — tools, game assets, and everything in between.' },
+      { num: '02', img: 'assets/index/vjudge.jpeg', fit: 'cover', pad: '0px', tag: 'RIGHT NOW', color: Y, glow: 'rgba(255,204,55,0.25)', title: 'Competitive programming grind', body: 'Solving problems regularly — sharpening algorithms, data structures, and speed.' },
+      { num: '03', img: 'assets/index/codeforces.jpeg', fit: 'cover', pad: '0px', tag: 'RIGHT NOW', color: Y, glow: 'rgba(255,204,55,0.25)', title: 'Contest hunting', body: 'Scouting upcoming contests on Codeforces and beyond.' },
+      { num: '04', img: 'assets/index/freelance.png', fit: 'cover', pad: '0px', tag: 'EXPERIENCE', color: G, glow: 'rgba(0,255,144,0.25)', title: 'Freelancing since 2021', body: 'Shipping client work as an independent artist for 4+ years and counting.' },
+      { num: '05', img: 'assets/index/claude.jpg', fit: 'cover', pad: '0px', tag: 'RIGHT NOW', color: Y, glow: 'rgba(255,204,55,0.25)', title: 'Tinkering with AI', body: 'Experimenting with AI tools and workflows — poking at what sticks and works.' }
     ];
     const socialDefs = [
       { id: 'discord', label: 'Discord', glyph: 'DC', color: '#0758cc', copy: 'guyz3r0', sub: 'guyz3r0' },
       { id: 'email', label: 'Email', glyph: '@', color: '#ffcc37', copy: 'sadman.raidstudios@gmail.com', sub: 'sadman.raidstudios@gmail.com' },
-      { id: 'github', label: 'GitHub', glyph: 'GH', color: '#00ff90', href: 'https://github.com/', sub: 'add your handle' },
+      { id: 'github', label: 'GitHub', glyph: 'GH', color: '#00ff90', href: 'https://github.com/guy-z3r0', sub: 'guy-z3r0' },
       { id: 'linkedin', label: 'LinkedIn', glyph: 'IN', color: '#0758cc', href: 'https://www.linkedin.com/in/sadman-sakib-rs/', sub: 'sadman-sakib-rs' },
-      { id: 'x', label: 'X', glyph: 'X', color: '#eae6f2', href: 'https://x.com/', sub: 'add your handle' },
+      { id: 'x', label: 'X', glyph: 'X', color: '#eae6f2', href: 'https://x.com/GuyZ3RO', sub: '@GuyZ3RO' },
       { id: 'cf', label: 'Codeforces', glyph: 'CF', color: '#ff8b1c', href: 'https://codeforces.com/profile/raeden2039', sub: 'raeden2039' }
     ];
     const socials = socialDefs.map((s) => ({

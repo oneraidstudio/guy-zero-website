@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio — GuyZ3R0</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="assets/avatar.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<script src="fx.js"></script>
+</helmet>
+<canvas ref="{{ cvRef }}" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none"></canvas>
+<nav style="position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 28px;background:rgba(10,4,13,0.88);backdrop-filter:blur(8px);border-bottom:2px solid #1b123e">
+  <a href="index.html" style="font-family:'Silkscreen',monospace;font-weight:700;font-size:18px;letter-spacing:1px;color:#ffffff">Guy<span style="color:#00ff90">Z3R0</span></a>
+  <div style="display:flex;align-items:center;gap:22px;font-family:'JetBrains Mono',monospace;font-size:13px">
+    <a href="index.html" style="color:#eae6f2">HOME</a>
+    <a href="blog.html" style="color:#eae6f2">BLOG</a>
+    <a href="projects.html" style="color:#eae6f2">PROJECTS</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div style="display:flex;border:2px solid #1e1e90;background:#1b123e">
+      <sc-for list="{{ modeBtns }}" as="m" hint-placeholder-count="3">
+        <button onClick="{{ m.onClick }}" title="Animation mode" style="{{ m.style }}">{{ m.label }}</button>
+      </sc-for>
+    </div>
+    <button data-btn="1" onClick="{{ toggleBg }}" title="Toggle animated background" style="{{ bgBtnStyle }}">BG</button>
+  </div>
+</nav>
+<main id="top" style="position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 24px">
+  <section style="padding:72px 0 56px;display:flex;flex-direction:column;align-items:center;text-align:center">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;color:#ff8b1c;border:2px solid #ff8b1c;padding:5px 12px;margin-bottom:22px">UNLISTED &#183; FOUND IT</span>
+    <h1 style="font-family:'Silkscreen',monospace;font-size:54px;margin:0;letter-spacing:2px;color:#ffffff;text-shadow:4px 4px 0 #1e1e90;line-height:1.15">PORT<span style="color:#00ff90;text-shadow:4px 4px 0 #0758cc">FOLIO</span></h1>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#ffcc37;margin:18px 0 0">&gt; the full shelf, not the highlight reel<span style="animation:gz-blink 1.1s step-end infinite">_</span></p>
+    <p style="max-width:660px;font-size:17px;line-height:1.75;color:#c9c2dd;margin:24px 0 0;text-wrap:pretty">Everything I've built, modelled, shipped or broken along the way — client work, studio releases, tools and experiments. Click any card for the details.</p>
+    <div style="display:flex;gap:26px;margin-top:34px;flex-wrap:wrap;justify-content:center">
+      <sc-for list="{{ stats }}" as="st" hint-placeholder-count="3">
+        <span style="display:flex;flex-direction:column;align-items:center;gap:4px">
+          <span style="font-family:'Silkscreen',monospace;font-size:28px;color: {{ st.color }}">{{ st.value }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;color:#8f86ad">{{ st.label }}</span>
+        </span>
+      </sc-for>
+    </div>
+  </section>
+  <section style="padding:0 0 26px;display:flex;gap:10px;flex-wrap:wrap">
+    <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+      <button data-btn="1" onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}</button>
+    </sc-for>
+  </section>
+  <section style="padding:0 0 110px;display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:26px;grid-auto-flow:dense">
+    <sc-for list="{{ items }}" as="p" hint-placeholder-count="10">
+      <article onClick="{{ p.open }}" style="position:relative;display:flex;flex-direction:column;background:#1b123e;border:2px solid #1e1e90;cursor:pointer;overflow:hidden;transition:transform .18s, border-color .18s, box-shadow .18s;box-shadow:6px 6px 0 0 #12093a;grid-column: {{ p.span }}" style-hover="transform: translate(-3px,-3px); border-color: {{ p.tagColor }}; box-shadow: 9px 9px 0 0 #12093a">
+        <span style="position:absolute;top:0;right:0;z-index:2;padding:5px 10px;background: {{ p.tagColor }};color:#0a040d;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:1px">{{ p.tag }}</span>
+        <div style="position:relative;height: {{ p.thumbH }};background:#12093a;border-bottom:2px solid #1e1e90;display:flex;align-items:center;justify-content:center;overflow:hidden">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;color:#2c2260">THUMBNAIL</span>
+          <img src="{{ p.imgSrc }}" alt="{{ p.title }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display: {{ p.imgShow }}">
+          <span style="position:absolute;left:0;bottom:0;z-index:2;padding:3px 9px 4px;background:rgba(10,4,13,0.82);border-top:2px solid #1e1e90;border-right:2px solid #1e1e90;font-family:'Silkscreen',monospace;font-size:18px;color: {{ p.tagColor }};line-height:1">{{ p.num }}</span>
+        </div>
+        <div style="padding:22px 24px 24px;display:flex;flex-direction:column;gap:10px;flex:1">
+          <h2 style="font-family:'Silkscreen',monospace;font-size:20px;color:#ffffff;margin:0;letter-spacing:1px;line-height:1.3">{{ p.title }}</h2>
+          <p style="font-size:15px;line-height:1.6;color:#c9c2dd;margin:0;text-wrap:pretty;flex:1">{{ p.desc }}</p>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8f86ad;letter-spacing:1px">{{ p.meta }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color: {{ p.tagColor }};font-weight:700">VIEW DETAILS &#9654;</span>
+        </div>
+      </article>
+    </sc-for>
+  </section>
+</main>
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:60;background:rgba(10,4,13,0.82);display:flex;align-items:center;justify-content:center;padding:24px;overflow-y:auto">
+    <div onClick="{{ stop }}" style="position:relative;width:100%;max-width:720px;max-height:86vh;overflow-y:auto;background:#1b123e;border:2px solid {{ mTagColor }};box-shadow:10px 10px 0 0 #0a040d;animation:gz-modal .22s ease">
+      <button data-btn="1" onClick="{{ closeModal }}" style="position:absolute;top:12px;right:12px;z-index:3;width:36px;height:36px;background:#0a040d;border:2px solid #1e1e90;color:#eae6f2;font-family:'Silkscreen',monospace;font-size:14px;cursor:pointer" style-hover="border-color: #ff2e57; color: #ff2e57">X</button>
+      <div style="display:flex;gap:10px;padding:24px 24px 0">
+        <sc-for list="{{ mImages }}" as="im" hint-placeholder-count="3">
+          <div style="flex:1;height:150px;background:#12093a;border:2px solid #1e1e90;display:flex;align-items:center;justify-content:center">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#2c2260">{{ im }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="padding:26px 28px 30px">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <h2 style="font-family:'Silkscreen',monospace;font-size:26px;color:#ffffff;margin:0;letter-spacing:1px">{{ mTitle }}</h2>
+          <span style="padding:4px 10px;background: {{ mTagColor }};color:#0a040d;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:1px">{{ mTag }}</span>
+        </div>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8f86ad;margin:10px 0 0;letter-spacing:1px">{{ mMeta }}</p>
+        <p style="font-size:16px;line-height:1.75;color:#c9c2dd;margin:18px 0 0;text-wrap:pretty">{{ mBody }}</p>
+        <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+          <sc-for list="{{ mStack }}" as="t" hint-placeholder-count="3">
+            <span style="padding:4px 10px;border:2px solid #1e1e90;color:#8f86ad;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px">{{ t }}</span>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:14px;margin-top:26px;flex-wrap:wrap">
+          <sc-for list="{{ mLinks }}" as="l" hint-placeholder-count="2">
+            <a data-btn="1" href="{{ l.href }}" target="_blank" style="display:inline-block;padding:10px 18px;background:#0a040d;border:2px solid {{ mTagColor }};color: {{ mTagColor }};font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:1px" style-hover="transform: translate(-2px,-2px)">{{ l.label }} &#9654;</a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+<footer style="position:relative;z-index:1;border-top:2px solid #1b123e;padding:26px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+  <span style="font-family:'Silkscreen',monospace;font-size:14px;color:#ffffff">Guy<span style="color:#00ff90">Z3R0</span></span>
+  <span style="display:flex;gap:18px;font-family:'JetBrains Mono',monospace;font-size:12px">
+    <a href="index.html" style="color:#8f86ad">HOME</a>
+    <a href="blog.html" style="color:#8f86ad">BLOG</a>
+    <a href="projects.html" style="color:#8f86ad">PROJECTS</a>
+  </span>
+  <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#5c5378">&#169; 2026 GuyZ3R0 &#183; built block by block</span>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  // Add/edit portfolio entries here. featured: true makes a card span 2 columns.
+  items = [
+    {
+      id: 'p01', num: '01', title: 'ONE RAID STUDIO', tag: 'STUDIO', tagColor: '#00ff90', cat: 'studio', featured: true,
+      meta: '2024 — ONGOING', stack: ['BRAND', 'WEB', 'PIPELINE'],
+      desc: 'Founding and running a game-asset studio end to end — brand, pipeline, releases.',
+      body: 'One Raid Studio is my own studio: Minecraft models and assets, developer tooling, and original game projects. I handle the direction, the pipeline and the releases. (Replace this write-up and drop in real screenshots.)',
+      links: [{ label: 'VIEW SITE', href: 'https://oneraidstudio.com' }]
+    },
+    {
+      id: 'p02', num: '02', title: 'RAID REALMS', tag: 'MINECRAFT', tagColor: '#ff8b1c', cat: 'games',
+      meta: '2025 — ONGOING', stack: ['PAPER', 'JAVA', 'MYTHICMOBS'],
+      desc: 'A Minecraft server running on custom bosses, dungeons and progression systems.',
+      body: 'Raid Realms is the One Raid Studio server — custom mobs, dungeon encounters and a progression loop built on our own plugin stack. (Replace this write-up and drop in real screenshots.)',
+      links: [{ label: 'WEBSITE', href: 'https://example.com' }, { label: 'DISCORD', href: 'https://discord.gg/' }]
+    },
+    {
+      id: 'p03', num: '03', title: 'ORS HUB', tag: 'TOOL', tagColor: '#4a8cff', cat: 'tools',
+      meta: '2025 — ONGOING', stack: ['WEB', 'JS'],
+      desc: 'Central home base for studio projects, tools and release notes.',
+      body: 'ORS Hub gathers everything the studio ships into one place: project pages, downloads, release notes and dev updates. (Replace this write-up and drop in real screenshots.)',
+      links: []
+    },
+    {
+      id: 'p04', num: '04', title: 'GOLEM', tag: 'TOOL', tagColor: '#4a8cff', cat: 'tools',
+      meta: 'IN PROGRESS', stack: ['JAVA', 'JAVAFX'],
+      desc: 'A blocky experiment in making things move, break and fight back.',
+      body: 'Golem is an in-progress tool project. Features, screenshots and a proper write-up to come. (Placeholder.)',
+      links: []
+    },
+    {
+      id: 'p05', num: '05', title: 'STATMAXXER', tag: 'TOOL', tagColor: '#4a8cff', cat: 'tools',
+      meta: '2025', stack: ['JAVA', 'JAVAFX'],
+      desc: 'Track the numbers that matter and grind them upward.',
+      body: 'Statmaxxer is a stat-tracking desktop tool. Description and screenshots to come. (Placeholder.)',
+      links: [{ label: 'REPO', href: 'https://github.com/guy-z3r0' }]
+    },
+    {
+      id: 'p06', num: '06', title: 'MODEL PACKS', tag: '3D', tagColor: '#ffcc37', cat: 'art', featured: true,
+      meta: '2023 — ONGOING', stack: ['BLOCKBENCH', 'MODELENGINE'],
+      desc: 'Rigged and animated Minecraft model packs sold and shipped to servers.',
+      body: 'A running catalogue of Blockbench models — bosses, mobs, props and rigs wired for ModelEngine. (Replace this write-up and drop in real renders.)',
+      links: []
+    },
+    {
+      id: 'p07', num: '07', title: 'PIXEL ART', tag: 'ART', tagColor: '#ff2e57', cat: 'art',
+      meta: 'ONGOING', stack: ['ASEPRITE'],
+      desc: 'Sprites, icons and UI art for my own projects and for clients.',
+      body: 'Pixel work: sprite sheets, item icons, UI frames and the odd animated mascot. (Placeholder — add a gallery.)',
+      links: []
+    },
+    {
+      id: 'p08', num: '08', title: 'FREELANCE WORK', tag: 'CLIENT', tagColor: '#00ff90', cat: 'client',
+      meta: '2021 — ONGOING', stack: ['VARIOUS'],
+      desc: 'Four-plus years of independent client work across code, art and assets.',
+      body: 'Contract work for servers, studios and solo creators since 2021 — plugins, models, art and tooling. Selected pieces listed here once cleared. (Placeholder.)',
+      links: []
+    },
+    {
+      id: 'p09', num: '09', title: 'COMPETITIVE PROGRAMMING', tag: 'CODE', tagColor: '#0758cc', cat: 'code',
+      meta: 'ONGOING', stack: ['C++', 'ALGORITHMS'],
+      desc: 'Daily problem grind on Codeforces — algorithms, data structures, speed.',
+      body: 'An ongoing habit rather than a project: contests, upsolving and a growing pile of solutions. (Placeholder — link solution repo.)',
+      links: [{ label: 'CODEFORCES', href: 'https://codeforces.com/profile/raeden2039' }]
+    },
+    {
+      id: 'p10', num: '10', title: 'THIS SITE', tag: 'WEB', tagColor: '#eae6f2', cat: 'code',
+      meta: '2026', stack: ['HTML', 'CSS', 'CANVAS'],
+      desc: 'The retro-pixel site you are reading, built from scratch.',
+      body: 'Hand-built pages with a canvas background engine, animation modes and a markdown-driven blog. You found the unlisted page, so you have already seen most of it. (Placeholder.)',
+      links: [{ label: 'REPO', href: 'https://github.com/guy-z3r0' }]
+    }
+  ];
+  state = { mode: 'subtle', bgOn: true, open: null, filter: 'all' };
+  cvRef = (el) => { this.cv = el; };
+  componentDidMount() {
+    let mode = 'subtle';
+    try {
+      const saved = localStorage.getItem('gz-anim-mode');
+      if (saved === 'max' || saved === 'subtle' || saved === 'zero') mode = saved;
+      const bg = localStorage.getItem('gz-bg-on');
+      this.setState({ mode, bgOn: bg === null ? true : bg === '1' });
+    } catch (e) {}
+    this.startFX();
+    this._onKey = (e) => { if (e.key === 'Escape') this.setState({ open: null }); };
+    addEventListener('keydown', this._onKey);
+  }
+  componentWillUnmount() {
+    if (this._fx) this._fx.destroy();
+    clearTimeout(this._fxT);
+    removeEventListener('keydown', this._onKey);
+  }
+  startFX() {
+    if (!window.GZ) { this._fxT = setTimeout(() => this.startFX(), 120); return; }
+    this._fx = GZ.initFX({
+      canvas: () => this.cv,
+      mode: () => this.state.mode,
+      bgOn: () => this.state.bgOn,
+      exclude: 'button, a, article, input, textarea, [data-btn], nav, footer'
+    });
+  }
+  setMode(m) {
+    try { localStorage.setItem('gz-anim-mode', m); } catch (e) {}
+    this.setState({ mode: m });
+  }
+  toggleBg = () => {
+    const v = !this.state.bgOn;
+    try { localStorage.setItem('gz-bg-on', v ? '1' : '0'); } catch (e) {}
+    this.setState({ bgOn: v });
+  };
+  renderVals() {
+    const { mode, bgOn, open, filter } = this.state;
+    const btn = (active) => ({
+      padding: '7px 12px', border: 'none', cursor: 'pointer', fontFamily: "'JetBrains Mono',monospace",
+      fontWeight: 700, fontSize: '11px', letterSpacing: '0.5px',
+      background: active ? '#00ff90' : 'transparent', color: active ? '#0a040d' : '#8f86ad'
+    });
+    const modeBtns = [
+      { label: 'MAX', onClick: () => this.setMode('max'), style: btn(mode === 'max') },
+      { label: 'SUB', onClick: () => this.setMode('subtle'), style: btn(mode === 'subtle') },
+      { label: 'ZERO', onClick: () => this.setMode('zero'), style: btn(mode === 'zero') }
+    ];
+    const bgBtnStyle = {
+      padding: '7px 12px', cursor: 'pointer', fontFamily: "'JetBrains Mono',monospace", fontWeight: 700,
+      fontSize: '11px', border: '2px solid ' + (bgOn ? '#00ff90' : '#1e1e90'),
+      background: '#1b123e', color: bgOn ? '#00ff90' : '#8f86ad'
+    };
+    const filterDefs = [
+      { id: 'all', label: 'ALL' }, { id: 'studio', label: 'STUDIO' }, { id: 'games', label: 'GAMES' },
+      { id: 'tools', label: 'TOOLS' }, { id: 'art', label: 'ART' }, { id: 'code', label: 'CODE' },
+      { id: 'client', label: 'CLIENT' }
+    ];
+    const filters = filterDefs.map((f) => ({
+      label: f.label,
+      onClick: () => this.setState({ filter: f.id }),
+      style: {
+        padding: '8px 14px', cursor: 'pointer', fontFamily: "'JetBrains Mono',monospace", fontWeight: 700,
+        fontSize: '11px', letterSpacing: '1px',
+        border: '2px solid ' + (filter === f.id ? '#00ff90' : '#1e1e90'),
+        background: filter === f.id ? '#00ff90' : '#1b123e',
+        color: filter === f.id ? '#0a040d' : '#8f86ad'
+      }
+    }));
+    const shown = this.items.filter((p) => filter === 'all' || p.cat === filter);
+    const cur = this.items.find((p) => p.id === open);
+    return {
+      cvRef: this.cvRef, modeBtns, bgBtnStyle, toggleBg: this.toggleBg, filters,
+      stats: [
+        { value: String(this.items.length).padStart(2, '0'), label: 'ENTRIES', color: '#00ff90' },
+        { value: '4+', label: 'YEARS', color: '#ffcc37' },
+        { value: '01', label: 'STUDIO', color: '#ff8b1c' }
+      ],
+      items: shown.map((p) => ({
+        ...p,
+        span: p.featured ? 'span 2' : 'auto',
+        thumbH: p.featured ? '220px' : '160px',
+        imgSrc: p.img || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+        imgShow: p.img ? 'block' : 'none',
+        open: () => this.setState({ open: p.id })
+      })),
+      modalOpen: !!cur,
+      mTitle: cur ? cur.title : '', mTag: cur ? cur.tag : '', mTagColor: cur ? cur.tagColor : '#1e1e90',
+      mBody: cur ? cur.body : '', mMeta: cur ? cur.meta : '',
+      mStack: cur ? cur.stack : [],
+      mImages: ['IMG 01', 'IMG 02', 'IMG 03'],
+      mLinks: cur ? cur.links : [],
+      closeModal: () => this.setState({ open: null }),
+      stop: (e) => e.stopPropagation()
+    };
+  }
+}
+</script>
+</body>
+</html>
