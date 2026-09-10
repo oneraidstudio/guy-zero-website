@@ -1,6 +1,6 @@
 ---
 title: I thought making a studio was gonna be easy
-date: 2026-07-22
+date: 2026-09-11
 tags: one-raid-studio, founder
 cover: posts/covers/studio.png
 ---
@@ -15,7 +15,7 @@ I worked as a freelancer for the past 5 years. Years of working for different pe
 
 > Mistake#1: I dreamt too big while not working on a foundation and growing it.
 
-I worked on a minecraft plugin for months yet it still wasn't finished. Version 1 was discarded, version 2 was half built, I relied on some people, got disappointed from time to time. If you don't work with a professional you shouldn't expect too much. Dreaming big is fine as long as you execute. Execution was my problem. I thought too much and drifted from one thing to another. But I learnt a lot back in 2025 working on that plugin. I gained a lot of technical experience. But life will always have a ways to surprise you. I hit a wall after my father passed suddenly in June, 2025. My server work was stalled. I wasn't exactly depressed but my mental health was suffering, I was still processing what had happened. I had no fallback after that. Everything was my responsibility and no one was there to save me. I had to find work and break into whatever I had saved through out the years I've freelanced. Mind you that I had stopped taking frequent commissions back then so I had to start working again. Again, there was my anxiety problem. I freezed when I failed to meet expectation of people. I distracted myself with this and that.
+I worked on a minecraft plugin for months yet it still wasn't finished. Version 1 was discarded, version 2 was half built, I relied on some people, got disappointed from time to time. If you don't work with a professional you shouldn't expect too much. Dreaming big is fine as long as you execute. Execution was my problem. I thought too much and drifted from one thing to another. But I learnt a lot back in 2025 working on that plugin. I gained a lot of technical experience. But life will always have a ways to surprise you. I hit a wall after my father passed suddenly in June, 2025. My server work was stalled. I wasn't exactly depressed but my mental health was suffering, I was still processing what had happened. I had no fallback after that. Everything was my responsibility and no one was there to save me. I had to find work and break into whatever I had saved through out the years I've freelanced. Mind you that I had stopped taking frequent commissions back then so I had to start working again. Again, there was my anxiety problem. I froze when I failed to meet expectation of people. I distracted myself with this and that.
 
 After going through all that, in December, 2025 I decided that I would start my team "One Raid Studio". I initially wanted to break into Hytale because it was going release in January. I worked towards a plan on what I should do moving on. And that decison was also a mistake.
 
@@ -63,7 +63,7 @@ It's alright to be empathetic and it is human. But I believe you need to be logi
 
 Even though I had to put in my own time into the task, I still would've get it done quickly, get things done absolutely perfectly to my liking and get exactly what I needed. Yet I dumped things like doing research on other people.
 
-> Mistake#8: I asked non experts to do research on a field that I should've researched instead. As a founder I myself should research things alone. That is a better way to retain information and learn rather than reading a report created by others.
+> Mistake#8: I asked non experts to do research on a field that I should've researched instead. As a founder I should research primary things alone. That is a better way to retain information and learn rather than reading a report created by others.
 
 By this point six months have already passed and it was june. My studio shifted from a four person team to a solo founder on the fourth month when everyone else failed to learn things in time. I just realized it much later.
 
@@ -88,9 +88,9 @@ I will admit that they journey so far has been great and really eye opening for 
 
 Will I give up on my ambition of creating something of my own? Absolutely no. I still have the luxury to able to fail so I will keep failing until I make something finally work. Do I know what I am doing? Maybe, debatable. Will I be more responsible with my studio? Absolutely. Will I be try to recruit or hire people for my studio? Not now or until I can actually hire a professional for tasks I am not the best at.
 
-Thank you for reading so far. Please reach out to me if you have any thoughts or opinion!
+Thank you for reading so far. Please reach out to me if you had a similar experience and how you recovered from it.
 
-## Mistakes I've learnt along the way
+## Lessons I've learnt along the way
 
 For those who just wants to know the mistakes:
 
