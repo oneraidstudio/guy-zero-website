@@ -49,12 +49,12 @@
       </sc-if>
       <sc-for list="{{ posts }}" as="p" hint-placeholder-count="3">
         <article data-post="1" onClick="{{ p.open }}" style="display:flex;gap:0;background:#1b123e;border:2px solid #1e1e90;cursor:pointer;transition:transform .18s, border-color .18s, box-shadow .18s;box-shadow:6px 6px 0 0 #12093a;overflow:hidden" style-hover="transform: translate(-3px,-3px); border-color: #ffcc37; box-shadow: 9px 9px 0 0 #12093a">
-          <div data-cover="1" style="flex:0 0 200px;min-height:170px;background:#12093a;border-right:2px solid #1e1e90;overflow:hidden">
+          <div data-cover="1" style="flex:0 0 200px;min-height:170px;background:#12093a;border-right:2px solid #1e1e90;overflow:hidden;align-self:stretch">
             <sc-if value="{{ p.hasCover }}" hint-placeholder-val="{{ false }}">
-              <img src="{{ p.cover }}" alt="" style="width:100%;height:170px;object-fit:cover;display:block">
+              <img src="{{ p.cover }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
             </sc-if>
             <sc-if value="{{ p.noCover }}" hint-placeholder-val="{{ true }}">
-              <div style="height:170px;display:flex;align-items:center;justify-content:center">
+              <div style="height:100%;display:flex;align-items:center;justify-content:center">
                 <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;color:#2c2260">COVER</span>
               </div>
             </sc-if>
